@@ -22,7 +22,9 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "CalculatorController", urlPatterns = {"/rectangleArea"})
 public class CalculatorController extends HttpServlet {
     private static final String RESULT_PAGE = "results.jsp";
-
+    private static final String ERROR_PAGE ="errorPage.jsp";
+    
+    String destination = RESULT_PAGE;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -35,17 +37,22 @@ public class CalculatorController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+        try{
          String length = request.getParameter("length");
          String width = request.getParameter("width");
         
         CalculateRectangleArea rectangle = new CalculateRectangleArea();
         
         request.setAttribute("rectangleArea", rectangle.calculateArea(length, width));
-        
+        }catch(Exception e){
+            destination = ERROR_PAGE;
+            request.setAttribute("errorMsg", e.getMessage());
+        }
         RequestDispatcher view =
-                request.getRequestDispatcher(RESULT_PAGE);
+                request.getRequestDispatcher(destination);
         view.forward(request, response);
+        
+        destination = RESULT_PAGE;
         }
     
 

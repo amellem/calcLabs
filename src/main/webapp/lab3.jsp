@@ -17,7 +17,7 @@
             <h3>Lets calculate the area of a circle!</h3>
             <form>
                 
-                <input type="text" name="cirlce" placeholder="Radius">
+                <input type="text" name="radius" placeholder="Radius" required="true">
                 <input type="submit" value="Submit">
             </form>
         </div>

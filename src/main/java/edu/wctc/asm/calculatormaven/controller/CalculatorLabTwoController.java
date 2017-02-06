@@ -19,10 +19,10 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Aerius
  */
-@WebServlet(name = "CalculatorController", urlPatterns = {"/labTwo"})
+@WebServlet(name = "CalculatorLabTwoController", urlPatterns = {"/labTwo"})
 public class CalculatorLabTwoController extends HttpServlet {
     private static final String RESULT_PAGE = "lab2.jsp";
-
+    private static final String ERROR_PAGE = "errorPage.jsp";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -36,16 +36,24 @@ public class CalculatorLabTwoController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
+        String destination = RESULT_PAGE;
+        
+        try{
          String length = request.getParameter("length");
          String width = request.getParameter("width");
         
         CalculateRectangleArea rectangle = new CalculateRectangleArea();
         
         request.setAttribute("rectangleAreaTwo", rectangle.calculateArea(length, width));
-        
+        }catch(Exception e){
+            destination = ERROR_PAGE;
+            request.setAttribute("errorMsg", e.getMessage());
+        }
         RequestDispatcher view =
-                request.getRequestDispatcher(RESULT_PAGE);
+                request.getRequestDispatcher(destination);
         view.forward(request, response);
+        
+        destination = RESULT_PAGE;
         }
     
 
