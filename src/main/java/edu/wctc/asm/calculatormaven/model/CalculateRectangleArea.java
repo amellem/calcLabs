@@ -5,6 +5,9 @@
  */
 package edu.wctc.asm.calculatormaven.model;
 
+import java.text.DecimalFormat;
+
+
 /**
  *
  * @author Aerius
@@ -12,7 +15,9 @@ package edu.wctc.asm.calculatormaven.model;
 public class CalculateRectangleArea{
     
     public String calculateArea(String length, String width){
-        double area = Double.parseDouble(length) * Double.parseDouble(width);
-        return Double.toString(area);
+        DecimalFormat df = new DecimalFormat("###.##");
+        double area = (Double.parseDouble(length) * Double.parseDouble(width));
+        String newArea = df.format(area);
+        return newArea;
     }
 }

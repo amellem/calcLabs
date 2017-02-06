@@ -5,6 +5,8 @@
  */
 package edu.wctc.asm.calculatormaven.model;
 
+import java.text.DecimalFormat;
+
 /**
  *
  * @author Aerius
@@ -12,7 +14,9 @@ package edu.wctc.asm.calculatormaven.model;
 public class CalculateCircleArea {
     
     public String calculateArea(String radius){
+        DecimalFormat df = new DecimalFormat("###.##");
         double area = Double.parseDouble(radius) * Math.PI;
-        return Double.toString(area);
+        String newArea = df.format(area);
+        return newArea;
     }
 }
