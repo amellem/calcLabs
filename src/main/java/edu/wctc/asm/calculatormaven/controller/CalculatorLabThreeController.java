@@ -5,6 +5,8 @@
  */
 package edu.wctc.asm.calculatormaven.controller;
 
+import edu.wctc.asm.calculatormaven.model.CalculateCircleArea;
+import edu.wctc.asm.calculatormaven.model.CalculateHypotenuse;
 import edu.wctc.asm.calculatormaven.model.CalculateRectangleArea;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,10 +21,12 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Aerius
  */
-@WebServlet(name = "CalculatorLabTwoController", urlPatterns = {"/labTwo"})
-public class CalculatorLabTwoController extends HttpServlet {
-    private static final String RESULT_PAGE = "lab2.jsp";
+@WebServlet(name = "CalculatorLabThreeController", urlPatterns = {"/CalculatorLabThreeController"})
+public class CalculatorLabThreeController extends HttpServlet {
+    private static final String RESULT_PAGE = "lab3.jsp";
     private static final String ERROR_PAGE = "errorPage.jsp";
+    
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -39,15 +43,28 @@ public class CalculatorLabTwoController extends HttpServlet {
         String destination = RESULT_PAGE;
         
         try{
-         String length = request.getParameter("length");
-         String width = request.getParameter("width");
-        
-        CalculateRectangleArea rectangle = new CalculateRectangleArea();
-        
-        request.setAttribute("rectangleAreaTwo", rectangle.calculateArea(length, width));
-        
+            String calcType = request.getParameter("calcType");
+            if(calcType.equals("rectangle")){
+                String length = request.getParameter("length");
+                String width = request.getParameter("width");
+
+                CalculateRectangleArea rectangle = new CalculateRectangleArea();
+
+                request.setAttribute("rectangleAreaThree", rectangle.calculateArea(length, width));
+            } else if (calcType.equals("circle")){
+                String radius = request.getParameter("radius");
+                
+                CalculateCircleArea circle = new CalculateCircleArea();
+                request.setAttribute("circleArea", circle.calculateArea(radius));
+            } else if (calcType.equals("hypotenuse")){
+                String legOne = request.getParameter("leg1");
+                String legTwo = request.getParameter("leg2");
+                
+                CalculateHypotenuse hypotenuse = new CalculateHypotenuse();
+                request.setAttribute("hypotenuse", hypotenuse.calculateHypotenuse(legOne, legTwo));
+            }
         }catch(Exception e){
-            destination = ERROR_PAGE;
+         destination = ERROR_PAGE;
             request.setAttribute("errorMsg", e.getMessage());
         }
         RequestDispatcher view =
@@ -55,8 +72,7 @@ public class CalculatorLabTwoController extends HttpServlet {
         view.forward(request, response);
         
         destination = RESULT_PAGE;
-        }
-    
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
